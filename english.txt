@@ -1,0 +1,68 @@
+Concord - Peace or agreement
+Subject must agree verb - number
+Utterance is an expression. 
+Rule of concord always be in sentence.  
+Native speakers ignore concord.  
+Subject - word, phrase and clause.
+
+
+
+
+
+// PROJECT OUTLINE
+
+-- Let post always from database, update and show on the homepage.
+-- After user sign in, update the navbar and they should only log IN/OUT and a profile button that if pressed will be take the user to his or her profile
+-- Then in the form, they will be a dropdown for different categories of post, ex. lands, housing, shops, props and other. a radio button that toggles and add, negoitable and not negotiable just after the price input field. Then note that when the land category is selected, they will be an input field for measurement, else the input field will not be visible.
+
+
+
+
+
+
+HEROKU
+Create a new app on Heroku.
+
+Connect your GitHub repository to Heroku under the Deploy tab.
+
+Set up Config Vars (environment variables) for things like MongoDB URI and JWT secret.
+
+Deploy your app (either manually or automatically).
+
+Verify that the app is live!
+
+
+Best free tool for real estate listings in Nigeria
+
+
+Propnetix
+
+"PropNetix" effectively communicates the essence of a property technology platform—a digital space where users can engage in property transactions with efficiency
+
+
+"Hey [Name], I’m building a real estate platform for African markets — would love your quick feedback on a 1-min demo if you have time."
+
+
+Step 1: Sign Up on Netlify
+Go to Netlify and sign up using GitHub, GitLab, or email.
+
+Step 2: Prepare Your Files
+Make sure your HTML, CSS, and JavaScript files are in a folder (e.g., my-website).
+
+Step 3: Create a GitHub Repo (Optional)
+If you haven’t already, upload your files to a GitHub repository.
+
+Step 4: Link Your GitHub to Netlify
+On Netlify, click "New Site from Git".
+
+Choose GitHub and select the repository with your files.
+
+Step 5: Deploy
+Click Deploy Site.
+
+Netlify will deploy your site, and you’ll get a live link.
+
+Step 6: (Optional) Custom Domain
+If you want a custom domain, go to Domain settings in your Netlify dashboard and add it.
+
+That’s it! Your site is live on Netlify! 😊
