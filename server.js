@@ -59,7 +59,7 @@ const User = mongoose.model("User", userSchema);
 const postSchema = new mongoose.Schema({
   title: String,
   description: String,
-  price: Number,
+  price: String,
   location: String,
   phone: String,
   images: [String],
@@ -256,7 +256,6 @@ app.post(
   }
 );
 
-
 // Get posts route with optional category, keyword, and price filter
 app.get("/api/posts", async (req, res) => {
   try {
@@ -295,7 +294,6 @@ app.get("/api/posts", async (req, res) => {
   }
 });
 
-
 // Get posts for a specific user
 app.get("/api/posts/user", verifyToken, async (req, res) => {
   try {
@@ -314,7 +312,6 @@ app.get("/api/posts/user", verifyToken, async (req, res) => {
   }
 });
 
-
 // To get user username
 app.get("/api/user", verifyToken, async (req, res) => {
   try {
@@ -329,7 +326,6 @@ app.get("/api/user", verifyToken, async (req, res) => {
       .json({ message: "Failed to fetch user data", error: err.message });
   }
 });
-
 
 // Delete post route
 app.delete("/api/delete-post/:id", verifyToken, async (req, res) => {
