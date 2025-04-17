@@ -200,10 +200,10 @@ app.post(
         return res.status(400).json({ message: "All fields are required." });
       }
 
-      const numericPrice = parseFloat(price.replace(/,/g, ""));
-      if (isNaN(numericPrice)) {
-        return res.status(400).json({ message: "Invalid price format." });
-      }
+      // const numericPrice = parseFloat(price.replace(/,/g, ""));
+      // if (isNaN(numericPrice)) {
+      //   return res.status(400).json({ message: "Invalid price format." });
+      // }
 
       const imageUrls = [];
 
@@ -230,7 +230,7 @@ app.post(
       const newPost = new Post({
         title,
         description,
-        price: numericPrice,
+        price,  //: //numericPrice,
         location,
         phone,
         category,
