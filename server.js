@@ -230,7 +230,7 @@ app.post(
       const newPost = new Post({
         title,
         description,
-        price,  //: //numericPrice,
+        price, //: //numericPrice,
         location,
         phone,
         category,
@@ -259,7 +259,7 @@ app.post(
 // Get posts route with optional category, keyword, and price filter
 app.get("/api/posts", async (req, res) => {
   try {
-    const { category, keyword, price } = req.query; // Get category, keyword, and price from query params
+    const { category, keyword, price, page = 1, limit = 10 } = req.query;
 
     // Build the filter object
     let filter = {};
@@ -278,7 +278,9 @@ app.get("/api/posts", async (req, res) => {
 
     // Fetch posts with the filter applied and sort by createdAt
     const posts = await Post.find(filter)
-      .sort({ createdAt: -1 }) // Sort by creation date in descending order
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(Number(limit))
       .populate("user", "username");
 
     if (!posts || posts.length === 0) {
