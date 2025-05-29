@@ -1,9 +1,5 @@
 require("dotenv").config();
 
-console.log("MONGO_URI:", process.env.MONGO_URI);
-console.log("JWT_SECRET:", process.env.JWT_SECRET);
-console.log("CLOUDINARY_CLOUD_NAME:", process.env.CLOUDINARY_CLOUD_NAME);
-
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
