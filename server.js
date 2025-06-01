@@ -444,15 +444,24 @@ const cors = require("cors");
 const multer = require("multer");
 const cloudinary = require("cloudinary").v2;
 const admin = require("firebase-admin");
-const serviceAccount = require("./serviceAccountKey.json");
+// const serviceAccount = require("./serviceAccountKey.json");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Firebase Admin Setup
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+// });
+
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+  credential: admin.credential.cert({
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+    privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+  }),
 });
+
 
 // Middleware to verify Firebase token
 // const verifyFirebaseToken = async (req, res, next) => {
