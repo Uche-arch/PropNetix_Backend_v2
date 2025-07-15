@@ -319,21 +319,6 @@ cron.schedule("0 0 * * *", async () => {
   }
 });
 
-// 🟢 SELF-PING every 4 minutes to keep Render awake
-cron.schedule("*/4 * * * *", async () => {
-  try {
-    const res = await fetch("https://propnetixbackend.onrender.com/ping"); // 👈 replace with your real backend URL
-    const text = await res.text();
-    console.log(`[Self-Ping] ✅ Responded with: ${text}`);
-  } catch (err) {
-    console.error(`[Self-Ping] ❌ Failed: ${err.message}`);
-  }
-});
-
-// 🔵 Simple ping route to confirm server is alive
-app.get("/ping", (req, res) => {
-  res.send("pong");
-});
 
 
 // Start server
