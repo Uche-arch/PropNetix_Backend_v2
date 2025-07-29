@@ -2,6 +2,7 @@ require("dotenv").config();
 const cron = require("node-cron");
 const express = require("express");
 const mongoose = require("mongoose");
+const nodemailer = require("nodemailer");
 const cors = require("cors");
 const multer = require("multer");
 const cloudinary = require("cloudinary").v2;
@@ -24,7 +25,91 @@ admin.initializeApp({
   }),
 });
 
+app.use(express.json());
 
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+console.log("User:", process.env.GMAIL_USER);
+console.log("Pass:", process.env.GMAIL_PASS);
+
+// ✅ Setup Nodemailer (using Gmail)
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.GMAIL_USER, // your Gmail
+    pass: process.env.GMAIL_PASS, // app password from Google
+  },
+});
+
+// ✅ Route: Send Custom Verification Email
+app.post("/api/send-verification-email", async (req, res) => {
+  const { uid, email } = req.body;
+
+  if (!uid || !email) {
+    return res.status(400).json({ message: "Missing uid or email" });
+  }
+
+  const verificationLink = `https://propnetix-backend-v2.onrender.com/api/verify-email?uid=${uid}`;
+
+  const mailOptions = {
+    from: `"PropNetix Support" <${process.env.GMAIL_USER}>`,
+    to: email,
+    subject: "Verify Your Email - PropNetix",
+    html: `
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: auto; padding: 20px; background-color: #ffffff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+    <div style="text-align: center; margin-bottom: 18px;">
+      <h2 style="color: #111; margin: 0;">Welcome to PropNetix</h2>
+    </div>
+    <p style="font-size: 16px; color: #333;">Hi there,</p>
+    <p style="font-size: 16px; color: #333;">
+      Thank you for signing up for PropNetix! You're just one step away from unlocking your account and accessing property listings tailored for you.
+    </p>
+    <p style="font-size: 16px; color: #333;">Please click the button below to verify your email address:</p>
+    <div style="text-align: center; margin: 25px 0;">
+      <a href="${verificationLink}" style="background-color: #272727; color: white; padding: 12px 20px; border-radius: 6px; text-decoration: none; font-weight: bold; display: inline-block; font-size: 14px;">
+        Verify My Email
+      </a>
+    </div>
+    <p style="font-size: 14px; color: #666; text-align: center;">
+      If you didn’t sign up for PropNetix, you can safely ignore this email.
+    </p>
+    <hr style="margin: 2px 0; border: none; border-top: 1px solid #eee;" />
+    <p style="font-size: 13px; color: #999; text-align: center; margin: 5px 0 0 0;">
+      &copy; ${new Date().getFullYear()} PropNetix. All rights reserved.
+    </p>
+  </div>
+  </div>
+  `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    res.json({ message: "Verification email sent" });
+  } catch (error) {
+    console.error("Error sending email:", error);
+    res.status(500).json({ message: "Failed to send email" });
+  }
+});
+
+// ✅ Route: Handle Email Click (verifies user)
+app.get("/api/verify-email", async (req, res) => {
+  const uid = req.query.uid;
+
+  if (!uid) {
+    return res.status(400).send("Missing UID");
+  }
+
+  try {
+    await admin.auth().updateUser(uid, { emailVerified: true });
+    // 🔁 Redirect user to login page on frontend
+    return res.redirect("https://propnetix.netlify.app/login.html");
+  } catch (error) {
+    console.error("Email verification error:", error);
+    return res.status(500).send("Error verifying email.");
+  }
+});
 
 // MIDDLEWARE WITH SOME DEBUGGIN
 const verifyFirebaseToken = async (req, res, next) => {
@@ -56,10 +141,6 @@ mongoose
   })
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.error("MongoDB connection error:", err));
-
-// Middleware
-app.use(cors());
-app.use(express.json());
 
 // Cloudinary configuration
 cloudinary.config({
@@ -319,11 +400,11 @@ cron.schedule("0 0 * * *", async () => {
   }
 });
 
-
-
 // Start server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+  console.log("Email:", process.env.GMAIL_USER);
+  console.log("Pass:", process.env.GMAIL_PASS ? "Loaded" : "Missing");
 });
 
 // New comment to push code to new github repo
