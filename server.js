@@ -66,7 +66,7 @@ app.post("/api/send-verification-email", async (req, res) => {
     <p style="font-size: 16px; color: #333;">
       Thank you for signing up for PropNetix! You're just one step away from unlocking your account and accessing property listings tailored for you.
     </p>
-    <p style="font-size: 16px; color: #333;">Please click the button below to verify your email address:</p>
+    <p style="font-size: 16px; color: #333;"> Please click the button below to verify your email address. Once verified, you’ll be redirected to the login page.</p>
     <div style="text-align: center; margin: 25px 0;">
       <a href="${verificationLink}" style="background-color: #272727; color: white; padding: 12px 20px; border-radius: 6px; text-decoration: none; font-weight: bold; display: inline-block; font-size: 14px;">
         Verify My Email
