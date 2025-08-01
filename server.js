@@ -371,7 +371,7 @@ cron.schedule("0 0 * * *", async () => {
   try {
     console.log("Running daily cleanup for unverified Firebase users...");
 
-    const oneDayAgo = Date.now() - 24 * 60 * 60 * 1000;
+    const oneDayAgo = Date.now() - 48 * 60 * 60 * 1000;
     const listAllUsers = async (nextPageToken) => {
       const result = await admin.auth().listUsers(1000, nextPageToken);
       const deletions = [];
