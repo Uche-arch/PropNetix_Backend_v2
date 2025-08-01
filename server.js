@@ -72,6 +72,9 @@ app.post("/api/send-verification-email", async (req, res) => {
         Verify My Email
       </a>
     </div>
+    <p style="font-size: 14px; color: #555; text-align: center; margin-bottom: 20px;">
+     If this email landed in your spam folder, please mark it as “Not Spam” so you don’t miss future updates.
+  </p>
     <p style="font-size: 14px; color: #666; text-align: center;">
       If you didn’t sign up for PropNetix, you can safely ignore this email.
     </p>
