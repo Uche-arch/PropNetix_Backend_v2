@@ -369,6 +369,30 @@ app.delete("/api/delete-post/:id", verifyFirebaseToken, async (req, res) => {
   }
 });
 
+// Get total number of posts (all categories)
+app.get("/api/posts-total", async (req, res) => {
+  try {
+    const count = await Post.countDocuments();
+    res.json({ count });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to get total posts count" });
+  }
+});
+
+// Get number of posts for a specific category
+app.get("/api/posts-count/:category", async (req, res) => {
+  try {
+    const { category } = req.params;
+    const count = await Post.countDocuments({ category });
+    res.json({ count });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to get category posts count" });
+  }
+});
+
+      // Added this block above latest 2 blocks
+
+
 // 🧹 CRON JOB: Daily cleanup of unverified Firebase users older than 24h
 cron.schedule("0 0 * * *", async () => {
   try {
